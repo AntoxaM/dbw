@@ -28,15 +28,15 @@ export class DBComponent implements OnInit {
       .then(() => this.reload());
   }
   public toggle(): void {
-    this.dbService.previous()
+    this.dbService.toggle()
       .then(() => this.reload());
   }
   public next(): void {
-    this.dbService.previous()
+    this.dbService.next()
       .then(() => this.reload());
   }
   public random(): void {
-    this.dbService.previous()
+    this.dbService.random()
       .then(() => this.reload());
   }
 }
