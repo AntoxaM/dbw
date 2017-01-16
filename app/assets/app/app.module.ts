@@ -9,9 +9,11 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent }         from './app.component';
 import { DashboardComponent }   from './dashboard.component';
+import { DBComponent }   from './db.component';
 import { HeroesComponent }      from './heroes.component';
 import { HeroDetailComponent }  from './hero-detail.component';
 import { HeroService }          from './hero.service';
+import { DBService }          from './db.service';
 import { HeroSearchComponent }  from './hero-search.component';
 
 @NgModule({
@@ -24,11 +26,12 @@ import { HeroSearchComponent }  from './hero-search.component';
   declarations: [
     AppComponent,
     DashboardComponent,
+    DBComponent,
     HeroDetailComponent,
     HeroesComponent,
     HeroSearchComponent,
   ],
-  providers: [ HeroService ],
+  providers: [ HeroService, DBService ],
   bootstrap: [ AppComponent ],
 })
 export class AppModule { }

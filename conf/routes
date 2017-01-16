@@ -13,6 +13,12 @@ POST    /api/heroes                 controllers.Heroes.create
 PUT     /api/heroes/:id             controllers.Heroes.update(id:Int)
 DELETE  /api/heroes/:id             controllers.Heroes.delete(id:Int)
 
+GET      /api/db/state              controllers.DB.getState
+POST     /api/db/togglePlay         controllers.DB.togglePlay
+POST     /api/db/next               controllers.DB.next
+POST     /api/db/previous           controllers.DB.previous
+POST     /api/db/random             controllers.DB.random
+
 GET     /api/*notFound              controllers.Application.notFound(notFound)
 
 # Map 404 to an index bis

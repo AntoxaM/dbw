@@ -1,0 +1,17 @@
+<div *ngIf="playInfo">
+  <h2>{{playInfo.title}} details!</h2>
+  <div><label>artist: </label>{{playInfo.artist}}</div>
+  <div><label>album: </label>{{playInfo.album}}</div>
+  <div><label>year: </label>{{playInfo.year}}</div>
+  <div><label>title: </label>{{playInfo.title}}</div>
+  <div><label>length: </label>{{playInfo.length}}</div>
+  <div><label>isPlaying: </label>{{playInfo.isPlaying}}</div>
+  <div><label>index: </label>{{playInfo.index}}</div>
+
+  <button (click)="reload()">Reload</button>
+  <button (click)="previous()">Previous</button>
+  <button (click)="toggle()">Toggle play</button>
+  <button (click)="next()">Next</button>
+  <button (click)="random()">Random</button>
+</div>
+

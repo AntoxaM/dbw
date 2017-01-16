@@ -14,7 +14,7 @@ import { Component }          from '@angular/core';
   styleUrls: ['assets/app/app.component.css'],
 })
 export class AppComponent {
-  public title = 'Tour of Heroes';
+  public title = 'Dead beef simple control';
 }
 
 /*
