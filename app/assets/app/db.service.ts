@@ -21,33 +21,33 @@ export class DBService {
                .catch(this.handleError);
   }
 
-  public previous(): Promise<void> {
+  public previous(): Promise<PlayInfo> {
     const url = `${this.heroesUrl}/previous`;
     return this.http.post(url, {headers: this.headers})
       .toPromise()
-      .then(() => null)
+      .then(response => response.json().data as PlayInfo)
       .catch(this.handleError);
   }
 
-  public next(): Promise<void> {
+  public next(): Promise<PlayInfo> {
     const url = `${this.heroesUrl}/next`;
     return this.http.post(url, {headers: this.headers})
       .toPromise()
-      .then(() => null)
+      .then(response => response.json().data as PlayInfo)
       .catch(this.handleError);
   }
-  public toggle(): Promise<void> {
+  public toggle(): Promise<PlayInfo> {
     const url = `${this.heroesUrl}/togglePlay`;
     return this.http.post(url, {headers: this.headers})
       .toPromise()
-      .then(() => null)
+      .then(response => response.json().data as PlayInfo)
       .catch(this.handleError);
   }
-  public random(): Promise<void> {
+  public random(): Promise<PlayInfo> {
     const url = `${this.heroesUrl}/random`;
     return this.http.post(url, {headers: this.headers})
       .toPromise()
-      .then(() => null)
+      .then(response => response.json().data as PlayInfo)
       .catch(this.handleError);
   }
 

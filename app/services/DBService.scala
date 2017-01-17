@@ -7,7 +7,7 @@ import play.api.libs.json.Json
 
 import scala.sys.process._
 import scala.concurrent.Future
-
+import scala.concurrent.ExecutionContext.Implicits.global
 /**
 Cmd to get
 /opt/deadbeef-devel/deadbeef --nowplaying-tf "%artist% - %album% - %year% - %title% - %length_ex% - %isplaying% - %list_index%"
@@ -23,7 +23,8 @@ object PlayInfo{
 class DBService {
 
   val dbCmd = "/opt/deadbeef-devel/deadbeef --"
-  def getState: Future[PlayInfo] = Future.successful{
+
+  def getState: Future[PlayInfo] = Future{
     val res = runCmd("nowplaying-tf \"%artist% @X- %album% @X- %year% @X- %title% @X- %length_ex% @X- %isplaying% @X- %list_index%\"")
     val last = res.last
     val split = last.split("@X-")
@@ -41,23 +42,37 @@ class DBService {
 
   def runCmd(command: String):Stream[String] = {
     val cmd = dbCmd+command
-    Logger.debug(s"cmd: ${cmd}")
+    Logger.debug(s"cmd: $cmd")
     val res = cmd.lineStream_!
-    Logger.debug(s"out: ${res}")
+    Logger.debug(s"out: $res")
     res
   }
 
-  def togglePlay: Future[Unit] = Future.successful{
+  def returnState: PlayInfo = {
+    val state: Future[PlayInfo] = getState
+    var pl: PlayInfo = PlayInfo("", "", "", "", "", false, "")
+    state.onSuccess {
+      case pi: PlayInfo => pl = pi
+    }
+    pl
+  }
+
+  def togglePlay: Future[PlayInfo] = Future{
     runCmd("toggle-pause")
+    returnState
   }
-  def next: Future[Unit] = Future.successful{
+
+  def next: Future[PlayInfo] = Future{
     runCmd("next")
+    returnState
   }
-  def previous: Future[Unit] = Future.successful{
+  def previous: Future[PlayInfo] = Future{
     runCmd("prev")
+    returnState
   }
-  def random: Future[Unit] = Future.successful{
+  def random: Future[PlayInfo] = Future{
     runCmd("random")
+    returnState
   }
 
 }
