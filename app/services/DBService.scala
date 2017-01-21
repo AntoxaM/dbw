@@ -31,13 +31,18 @@ class DBService {
   }
 
   def parseInfo(res: Stream[String]): PlayInfo = {
-    val last = res.last
+    val last = if (res.isEmpty) "" else res.last
 
-    val rxPI = "(.+) @X- (.+) @X- (.+) @X- (.+) @X- (.+) @X- (.+) @X- (.+)".r
+    Logger.debug(s"Playing: $last")
+
+    val rxPI = "(.*) @X- (.*) @X- (.*) @X- (.*) @X- (.*) @X- (.*) @X- (.*)".r
     val snd = rxPI.findFirstIn(last)
     if (snd.nonEmpty) {
       snd match {
-        case Some(rxPI(artist, album, year, title, length, isPlaying, play_index)) => PlayInfo(artist, album, year, title, length, isPlaying == "1", play_index)
+        case Some(rxPI(artist, album, year, title, length, isPlaying, play_index)) =>
+          val info: PlayInfo = PlayInfo(artist, album, year, title, length, isPlaying == "1", play_index)
+          Logger.debug(s"PI:$info")
+          info
       }
     }
     else PlayInfo()

@@ -18,15 +18,15 @@ class DB @Inject()(dbService: DBService) extends Controller {
   }
 
   def togglePlay() = Action.async {
-    dbService.togglePlay.map{ s => Ok("") }
+    dbService.togglePlay.map{ s => Ok(toDataField(s)) }
   }
   def next() = Action.async {
-    dbService.next.map{ s => Ok("") }
+    dbService.next.map{ s => Ok(toDataField(s)) }
   }
   def previous() = Action.async {
-    dbService.previous.map{ s => Ok("") }
+    dbService.previous.map{ s => Ok(toDataField(s)) }
   }
   def random() = Action.async {
-    dbService.random.map{ s => Ok("") }
+    dbService.random.map{ s => Ok(toDataField(s)) }
   }
 }
