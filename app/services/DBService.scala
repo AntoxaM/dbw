@@ -22,8 +22,8 @@ object PlayInfo{
 @Singleton
 class DBService {
 
-  val dbCmd = "/opt/deadbeef-devel/deadbeef --"
-  val infoCommand = dbCmd + "nowplaying-tf \"%artist% @X- %album% @X- %year% @X- %title% @X- %length_ex% @X- %isplaying% @X- %list_index%\""
+  val dbCmd = "/opt/deadbeef-devel/deadbeef"
+  val infoCommand = Seq(dbCmd , "--nowplaying-tf", " \"%artist% @X- %album% @X- %year% @X- %title% @X- %length_ex% @X- %isplaying% @X- %list_index%\"")
 
   def getState: Future[PlayInfo] = Future{
     val res = runCmd(infoCommand)
@@ -51,20 +51,24 @@ class DBService {
   }
 
   def togglePlay: Future[PlayInfo] = Future{
-    val res = runCmd("toggle-pause" #&&  infoCommand)
+    val res = runCmd(getCmd("--toggle-pause"))
     parseInfo(res)
   }
 
+  def getCmd(cmdName: String ): ProcessBuilder = {
+    Seq(dbCmd, cmdName) #&& infoCommand
+  }
+
   def next: Future[PlayInfo] = Future{
-    val res = runCmd("next" #&& infoCommand)
+    val res = runCmd(getCmd("--next"))
     parseInfo(res)
   }
   def previous: Future[PlayInfo] = Future{
-    val res = runCmd("prev" #&& infoCommand)
+    val res = runCmd(getCmd("--prev"))
     parseInfo(res)
   }
   def random: Future[PlayInfo] = Future{
-    val res = runCmd("random" #&& infoCommand)
+    val res = runCmd(getCmd("--random"))
     parseInfo(res)
   }
 
