@@ -1,5 +1,5 @@
-name := """play-angular2-typescript"""
-version := "0.2.0-beta.6"
+name := """Dead beef control"""
+version := "0.3.0"
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
 scalaVersion := "2.11.8"
@@ -7,7 +7,7 @@ incOptions := incOptions.value.withNameHashing(true)
 updateOptions := updateOptions.value.withCachedResolution(cachedResoluton = true)
 
 libraryDependencies ++= {
-  val ngVersion="2.2.0"
+  val ngVersion="2.4.0"
   Seq(
     cache,
 
