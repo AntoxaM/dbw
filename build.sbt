@@ -7,7 +7,7 @@ incOptions := incOptions.value.withNameHashing(true)
 updateOptions := updateOptions.value.withCachedResolution(cachedResoluton = true)
 
 libraryDependencies ++= {
-  val ngVersion="2.4.0"
+  val ngVersion="2.4.4"
   Seq(
     cache,
 
@@ -17,7 +17,7 @@ libraryDependencies ++= {
     "org.webjars.npm" % "angular__core" % ngVersion,
     "org.webjars.npm" % "angular__http" % ngVersion,
     "org.webjars.npm" % "angular__forms" % ngVersion,
-    "org.webjars.npm" % "angular__router" % "3.2.0",
+    "org.webjars.npm" % "angular__router" % "3.4.4",
     "org.webjars.npm" % "angular__platform-browser-dynamic" % ngVersion,
     "org.webjars.npm" % "angular__platform-browser" % ngVersion,
     "org.webjars.npm" % "systemjs" % "0.19.40",
@@ -27,7 +27,7 @@ libraryDependencies ++= {
     "org.webjars.npm" % "core-js" % "2.4.1",
     "org.webjars.npm" % "symbol-observable" % "1.0.1",
 
-    "org.webjars.npm" % "typescript" % "2.1.4",
+    "org.webjars.npm" % "typescript" % "2.1.5",
 
     //tslint dependency
     "org.webjars.npm" % "tslint-eslint-rules" % "3.1.0",
