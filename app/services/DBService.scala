@@ -13,7 +13,7 @@ Cmd to get
 /opt/deadbeef-devel/deadbeef --nowplaying-tf "%artist% - %album% - %year% - %title% - %length_ex% - %isplaying% - %list_index%"
 
   */
-case class PlayInfo(artist: String, album: String, year: String, title: String, length: String, isPlaying: Boolean, index: String)
+case class PlayInfo(artist: String="", album: String="", year: String="", title: String="", length: String="", isPlaying: Boolean=false, index: String="")
 
 object PlayInfo{
   implicit val format = Json.format[PlayInfo]
@@ -23,56 +23,49 @@ object PlayInfo{
 class DBService {
 
   val dbCmd = "/opt/deadbeef-devel/deadbeef --"
+  val infoCommand = dbCmd + "nowplaying-tf \"%artist% @X- %album% @X- %year% @X- %title% @X- %length_ex% @X- %isplaying% @X- %list_index%\""
 
   def getState: Future[PlayInfo] = Future{
-    val res = runCmd("nowplaying-tf \"%artist% @X- %album% @X- %year% @X- %title% @X- %length_ex% @X- %isplaying% @X- %list_index%\"")
-    val last = res.last
-    val split = last.split("@X-")
-
-    val artist: String = split(0)
-    val album: String = split(1)
-    val year: String = split(2)
-    val title: String = split(3)
-    val length: String = split(4)
-    val isPlaying: Boolean = split(5)=="1"
-    val play_index: String = split(6)
-
-    PlayInfo(artist, album, year, title, length, isPlaying , play_index)
+    val res = runCmd(infoCommand)
+    parseInfo(res)
   }
 
-  def runCmd(command: String):Stream[String] = {
-    val cmd = dbCmd+command
-    Logger.debug(s"cmd: $cmd")
-    val res = cmd.lineStream_!
+  def parseInfo(res: Stream[String]): PlayInfo = {
+    val last = res.last
+
+    val rxPI = "(.+) @X- (.+) @X- (.+) @X- (.+) @X- (.+) @X- (.+) @X- (.+)".r
+    val snd = rxPI.findFirstIn(last)
+    if (snd.nonEmpty) {
+      snd match {
+        case Some(rxPI(artist, album, year, title, length, isPlaying, play_index)) => PlayInfo(artist, album, year, title, length, isPlaying == "1", play_index)
+      }
+    }
+    else PlayInfo()
+  }
+
+  def runCmd(command: ProcessBuilder):Stream[String] = {
+    Logger.debug(s"cmd: $command")
+    val res = command.lineStream_!
     Logger.debug(s"out: $res")
     res
   }
 
-  def returnState: PlayInfo = {
-    val state: Future[PlayInfo] = getState
-    var pl: PlayInfo = PlayInfo("", "", "", "", "", false, "")
-    state.onSuccess {
-      case pi: PlayInfo => pl = pi
-    }
-    pl
-  }
-
   def togglePlay: Future[PlayInfo] = Future{
-    runCmd("toggle-pause")
-    returnState
+    val res = runCmd("toggle-pause" #&&  infoCommand)
+    parseInfo(res)
   }
 
   def next: Future[PlayInfo] = Future{
-    runCmd("next")
-    returnState
+    val res = runCmd("next" #&& infoCommand)
+    parseInfo(res)
   }
   def previous: Future[PlayInfo] = Future{
-    runCmd("prev")
-    returnState
+    val res = runCmd("prev" #&& infoCommand)
+    parseInfo(res)
   }
   def random: Future[PlayInfo] = Future{
-    runCmd("random")
-    returnState
+    val res = runCmd("random" #&& infoCommand)
+    parseInfo(res)
   }
 
 }
