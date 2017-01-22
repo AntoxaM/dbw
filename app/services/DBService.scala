@@ -30,6 +30,24 @@ class DBService {
     parseInfo(res)
   }
 
+  def togglePlay: Future[PlayInfo] = Future{
+    val res = runCmd(getCmd("--toggle-pause"))
+    parseInfo(res)
+  }
+
+  def next: Future[PlayInfo] = Future{
+    val res = runCmd(getCmd("--next"))
+    parseInfo(res)
+  }
+  def previous: Future[PlayInfo] = Future{
+    val res = runCmd(getCmd("--prev"))
+    parseInfo(res)
+  }
+  def random: Future[PlayInfo] = Future{
+    val res = runCmd(getCmd("--random"))
+    parseInfo(res)
+  }
+
   def parseInfo(res: Stream[String]): PlayInfo = {
     val last = if (res.isEmpty) "" else res.last
 
@@ -55,26 +73,7 @@ class DBService {
     res
   }
 
-  def togglePlay: Future[PlayInfo] = Future{
-    val res = runCmd(getCmd("--toggle-pause"))
-    parseInfo(res)
-  }
-
   def getCmd(cmdName: String ): ProcessBuilder = {
     Seq(dbCmd, cmdName) #&& infoCommand
   }
-
-  def next: Future[PlayInfo] = Future{
-    val res = runCmd(getCmd("--next"))
-    parseInfo(res)
-  }
-  def previous: Future[PlayInfo] = Future{
-    val res = runCmd(getCmd("--prev"))
-    parseInfo(res)
-  }
-  def random: Future[PlayInfo] = Future{
-    val res = runCmd(getCmd("--random"))
-    parseInfo(res)
-  }
-
 }

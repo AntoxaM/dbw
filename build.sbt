@@ -33,9 +33,18 @@ libraryDependencies ++= {
     "org.webjars.npm" % "tslint-eslint-rules" % "3.1.0",
     "org.webjars.npm" % "tslint-microsoft-contrib" % "2.0.12",
     //   "org.webjars.npm" % "codelyzer" % "2.0.0-beta.1",
-    "org.webjars.npm" % "types__jasmine" % "2.2.26-alpha" % "test"
+    "org.webjars.npm" % "types__jasmine" % "2.2.26-alpha" % "test",
+
+    "org.webjars.npm"               % "bootstrap"           % "4.0.0-alpha.6" exclude("org.webjars", "jquery"),
+    "org.webjars.npm" % "ng-bootstrap__ng-bootstrap" % "1.0.0-alpha.15",
+    "org.webjars.bower" % "components-font-awesome" % "4.7.0"
+    /*,
     //test
     //  "org.webjars.npm" % "jasmine-core" % "2.4.1"
+  //bootstrap
+  "org.webjars"               % "bootstrap"           % "4.0.0-alpha.6" exclude("org.webjars", "jquery"),
+  "org.webjars"               % "jquery"              % "2.2.0"*/
+
   )
 }
 dependencyOverrides += "org.webjars.npm" % "minimatch" % "3.0.0"

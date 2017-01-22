@@ -1,5 +1,12 @@
 <div *ngIf="playInfo">
-  <h2>{{playInfo.title}} details!</h2>
+  <h2>{{playInfo.title}}</h2>
+
+  <button type="button" class="btn btn-lg" title="Show current song" (click)="reload()"><i class="fa fa-check-circle-o" aria-hidden="true" ></i></button>
+  <button type="button" class="btn btn-lg" title="Previous song" (click)="previous()"><i class="fa fa-step-backward" aria-hidden="true"></i></button>
+  <button type="button" class="btn btn-lg" title="Toggle play/pause" (click)="toggle()"><i class="fa fa-play-circle-o" aria-hidden="true"></i></button>
+  <button type="button" class="btn btn-lg" title="Next song" (click)="next()"><i class="fa fa-step-forward" aria-hidden="true"></i></button>
+  <button type="button" class="btn btn-lg" title="Play random song" (click)="random()"><i class="fa fa-random" aria-hidden="true"></i></button>
+
   <div><label>artist: </label>{{playInfo.artist}}</div>
   <div><label>album: </label>{{playInfo.album}}</div>
   <div><label>year: </label>{{playInfo.year}}</div>
@@ -7,11 +14,5 @@
   <div><label>length: </label>{{playInfo.length}}</div>
   <div><label>isPlaying: </label>{{playInfo.isPlaying}}</div>
   <div><label>index: </label>{{playInfo.index}}</div>
-
-  <button (click)="reload()">Reload</button>
-  <button (click)="previous()">Previous</button>
-  <button (click)="toggle()">Toggle play</button>
-  <button (click)="next()">Next</button>
-  <button (click)="random()">Random</button>
 </div>
 
