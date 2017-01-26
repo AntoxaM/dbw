@@ -23,7 +23,8 @@ object PlayInfo{
 class DBService {
 
   val dbCmd = "/opt/deadbeef-devel/deadbeef"
-  val infoCommand = Seq(dbCmd , "--nowplaying-tf", " \"%artist% @X- %album% @X- %year% @X- %title% @X- %length_ex% @X- %isplaying% @X- %list_index%\"")
+  private val separator: String = "@X4-"
+  val infoCommand = Seq(dbCmd , "--nowplaying-tf",s" %artist% $separator %album% $separator %year% $separator %title% $separator %length_ex% $separator %isplaying% $separator %list_index%")
 
   def getState: Future[PlayInfo] = Future{
     val res = runCmd(infoCommand)
@@ -53,7 +54,7 @@ class DBService {
 
     Logger.debug(s"Playing: $last")
 
-    val rxPI = "(.*) @X- (.*) @X- (.*) @X- (.*) @X- (.*) @X- (.*) @X- (.*)".r
+    val rxPI = s"(.*) $separator (.*) $separator (.*) $separator (.*) $separator (.*) $separator (.*) $separator (.*)".r
     val snd = rxPI.findFirstIn(last)
     if (snd.nonEmpty) {
       snd match {
